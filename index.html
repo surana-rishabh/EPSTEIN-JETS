@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="EPSTEIN JETS - An immersive XR racing game with obstacle courses">
+    <meta name="theme-color" content="#0a0e27">
+    <title>EPSTEIN JETS • XR Racing Game</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="screen active">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <span class="logo-text">EPSTEIN</span>
+                <span class="logo-text accent">JETS</span>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <p class="loading-text" id="loadingText">Initializing...</p>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="mainMenu" class="screen">
+        <div class="stars"></div>
+        <div class="particles"></div>
+        <div class="menu-container">
+            <h1 class="game-title">
+                <span class="title-line">EPSTEIN</span>
+                <span class="title-line accent">JETS</span>
+            </h1>
+            <p class="subtitle">XR Racing Championship</p>
+            
+            <div class="mode-indicator" id="modeIndicator">
+                <span class="mode-icon">🌐</span>
+                <span class="mode-label">3D MODE</span>
+            </div>
+            
+            <div class="mode-grid">
+                <button class="mode-card" data-mode="racing">
+                    <div class="card-glow"></div>
+                    <div class="card-icon">🏁</div>
+                    <h3>RACING MODE</h3>
+                    <p>Collect checkpoints and race through the circuit</p>
+                    <div class="card-features">
+                        <span>10 Checkpoints</span>
+                        <span>Speed Boosts</span>
+                        <span>Time Attack</span>
+                    </div>
+                </button>
+                
+                <button class="mode-card" data-mode="obstacles">
+                    <div class="card-glow"></div>
+                    <div class="card-icon">🎯</div>
+                    <h3>OBSTACLE COURSE</h3>
+                    <p>Navigate through challenging obstacles</p>
+                    <div class="card-features">
+                        <span>8+ Obstacles</span>
+                        <span>Power-ups</span>
+                        <span>Survival</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="menu-footer">
+                <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
+                <button class="icon-btn" id="helpBtn" title="How to Play">❓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AR/3D Placement Screen -->
+    <div id="placementScreen" class="screen">
+        <div class="placement-container">
+            <div class="placement-header">
+                <h2>POSITION YOUR AIRCRAFT</h2>
+                <p id="arStatus" class="status-text">Initializing...</p>
+            </div>
+
+            <div class="placement-visual">
+                <div class="reticle-indicator">
+                    <div class="reticle-ring"></div>
+                    <div class="reticle-ring delay"></div>
+                    <div class="reticle-dot"></div>
+                    <div class="reticle-crosshair"></div>
+                </div>
+            </div>
+
+            <div class="placement-buttons">
+                <button class="placement-btn primary" id="placeBtn" disabled>
+                    <span class="btn-icon">✈️</span>
+                    <span class="btn-text">LAUNCH AIRCRAFT</span>
+                </button>
+                
+                <button class="placement-btn secondary" id="backBtn">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">BACK TO MENU</span>
+                </button>
+            </div>
+
+            <div class="placement-tips">
+                <div class="tip"><span class="tip-icon">💡</span> Point camera at a flat surface</div>
+                <div class="tip"><span class="tip-icon">📱</span> Move device slowly for better detection</div>
+                <div class="tip"><span class="tip-icon">☀️</span> Good lighting improves tracking</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game HUD -->
+    <div id="gameHUD" class="hud">
+        <!-- Top Bar -->
+        <div class="hud-top">
+            <div class="hud-left">
+                <div class="mode-badge" id="modeBadge">RACING MODE</div>
+            </div>
+            <div class="hud-center">
+                <div class="timer">
+                    <span class="timer-label">TIME</span>
+                    <span class="timer-value" id="timer">00:00</span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <button class="hud-btn" id="pauseBtn">⏸</button>
+            </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <div class="stat-item speed-stat">
+                <span class="stat-icon">🚀</span>
+                <div class="stat-content">
+                    <span class="stat-label">SPEED</span>
+                    <span class="stat-value" id="speedValue">0</span>
+                    <span class="stat-unit">km/h</span>
+                </div>
+                <div class="speed-bar">
+                    <div class="speed-fill" id="speedFill"></div>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-icon">📏</span>
+                <div class="stat-content">
+                    <span class="stat-label">ALTITUDE</span>
+                    <span class="stat-value" id="altValue">0.0</span>
+                    <span class="stat-unit">m</span>
+                </div>
+            </div>
+
+            <div class="stat-item" id="checkpointStat">
+                <span class="stat-icon">🎯</span>
+                <div class="stat-content">
+                    <span class="stat-label">CHECKPOINTS</span>
+                    <span class="stat-value">
+                        <span id="checksCurrent">0</span>/<span id="checksTotal">10</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-item boost-stat" id="boostStat">
+                <span class="stat-icon">🔥</span>
+                <div class="stat-content">
+                    <span class="stat-label">BOOST</span>
+                    <div class="boost-bar">
+                        <div class="boost-fill" id="boostFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini Map -->
+        <div class="minimap" id="minimap">
+            <canvas id="minimapCanvas" width="150" height="150"></canvas>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notification" class="notification"></div>
+        
+        <!-- Warning Indicators -->
+        <div id="warningIndicator" class="warning-indicator">
+            <span class="warning-icon">⚠️</span>
+            <span class="warning-text">LOW ALTITUDE</span>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div id="controls" class="controls">
+        <!-- Left Joystick -->
+        <div class="joystick" id="leftJoystick">
+            <div class="joystick-base">
+                <div class="joystick-guides"></div>
+                <div class="joystick-stick" id="leftStick"></div>
+            </div>
+            <div class="joystick-label">THROTTLE / PITCH</div>
+        </div>
+
+        <!-- Right Joystick -->
+        <div class="joystick" id="rightJoystick">
+            <div class="joystick-base">
+                <div class="joystick-guides"></div>
+                <div class="joystick-stick" id="rightStick"></div>
+            </div>
+            <div class="joystick-label">STEERING</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-btns">
+            <button class="action-btn boost" id="boostBtn">
+                <span class="btn-icon">🔥</span>
+                <span>BOOST</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pauseMenu" class="overlay-screen">
+        <div class="overlay-container">
+            <h2>PAUSED</h2>
+            <div class="pause-stats">
+                <div class="stat-row">
+                    <span>Time</span>
+                    <span id="pauseTime">00:00</span>
+                </div>
+                <div class="stat-row">
+                    <span>Checkpoints</span>
+                    <span id="pauseChecks">0/10</span>
+                </div>
+                <div class="stat-row">
+                    <span>Top Speed</span>
+                    <span id="pauseSpeed">0 km/h</span>
+                </div>
+            </div>
+            <div class="menu-btns">
+                <button class="menu-btn primary" id="resumeBtn">RESUME</button>
+                <button class="menu-btn" id="restartBtn">RESTART</button>
+                <button class="menu-btn danger" id="quitBtn">QUIT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" class="overlay-screen">
+        <div class="overlay-container results">
+            <div class="results-badge" id="resultsBadge">🏆</div>
+            <h2 id="resultsTitle">VICTORY!</h2>
+            <div class="results-stats">
+                <div class="result-item">
+                    <span class="result-icon">⏱️</span>
+                    <div>
+                        <span class="result-label">Final Time</span>
+                        <span class="result-value" id="finalTime">00:00</span>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <span class="result-icon">🎯</span>
+                    <div>
+                        <span class="result-label">Checkpoints</span>
+                        <span class="result-value" id="finalChecks">0/10</span>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <span class="result-icon">🚀</span>
+                    <div>
+                        <span class="result-label">Top Speed</span>
+                        <span class="result-value" id="finalSpeed">0 km/h</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-btns">
+                <button class="menu-btn primary" id="playAgainBtn">PLAY AGAIN</button>
+                <button class="menu-btn" id="mainMenuBtn">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settingsOverlay" class="overlay-screen">
+        <div class="overlay-container settings">
+            <button class="close-btn" id="closeSettings">✕</button>
+            <h2>SETTINGS</h2>
+            
+            <div class="settings-section">
+                <h3>Controls</h3>
+                <div class="setting-row">
+                    <label>Sensitivity</label>
+                    <input type="range" id="sensitivitySlider" min="0.5" max="2" step="0.1" value="1">
+                    <span id="sensitivityValue">1.0</span>
+                </div>
+                <div class="setting-row">
+                    <label>Invert Y-Axis</label>
+                    <button class="toggle-btn" id="invertYToggle">OFF</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Graphics</h3>
+                <div class="setting-row">
+                    <label>Quality</label>
+                    <select id="qualitySelect">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <label>Show Minimap</label>
+                    <button class="toggle-btn active" id="minimapToggle">ON</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Audio</h3>
+                <div class="setting-row">
+                    <label>Sound Effects</label>
+                    <button class="toggle-btn active" id="sfxToggle">ON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Overlay -->
+    <div id="helpOverlay" class="overlay-screen">
+        <div class="overlay-container help">
+            <button class="close-btn" id="closeHelp">✕</button>
+            <h2>HOW TO PLAY</h2>
+            
+            <div class="help-section">
+                <h3>🎮 Controls</h3>
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <span class="key">W/S</span>
+                        <span>Pitch Up/Down</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">A/D</span>
+                        <span>Turn Left/Right</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">SPACE</span>
+                        <span>Boost</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">ESC</span>
+                        <span>Pause</span>
+                    </div>
+                </div>
+                <p class="help-note">📱 On mobile, use the on-screen joysticks</p>
+            </div>
+
+            <div class="help-section">
+                <h3>🏁 Racing Mode</h3>
+                <p>Fly through all checkpoint rings in order, then cross the finish line. Collect boost pickups for extra speed!</p>
+            </div>
+
+            <div class="help-section">
+                <h3>🎯 Obstacle Course</h3>
+                <p>Navigate through challenging obstacles including spinning barriers, moving walls, and laser grids. Collect shields for protection!</p>
+            </div>
+
+            <div class="help-section">
+                <h3>💡 Tips</h3>
+                <ul class="tips-list">
+                    <li>Fly through checkpoint rings, not around them</li>
+                    <li>Use boost wisely - watch your boost meter</li>
+                    <li>Stay above ground level to avoid crashing</li>
+                    <li>Smooth control inputs work better than jerky movements</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Mode Canvas Container -->
+    <div id="canvasContainer"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
