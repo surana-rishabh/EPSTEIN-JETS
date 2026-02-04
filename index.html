@@ -1,530 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EPSTEIN JETS • AR Racing</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>EPSTEIN JETS • AR Racing Game</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="stars"></div>
-        <div class="stars-2"></div>
-        <div class="shooting-star"></div>
-    </div>
-
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fade-screen">
-        <div class="loading-content">
-            <div class="plane-loader">
-                <div class="plane-icon">✈️</div>
-                <div class="vapor-trail"></div>
-            </div>
-            <h1 class="loading-title">EPSTEIN JETS</h1>
-            <div class="loading-bar">
-                <div class="loading-fill"></div>
-            </div>
-            <p class="loading-text">Initializing AR Systems...</p>
-        </div>
-    </div>
-
     <!-- Main Menu -->
-    <div id="mainMenu" class="menu-screen" style="display: none;">
-        <div class="menu-glow"></div>
-        <div class="menu-content">
-            <div class="logo-section">
-                <h1 class="game-logo">
-                    <span class="logo-line">EPSTEIN</span>
-                    <span class="logo-line">JETS</span>
-                </h1>
-                <p class="tagline">Augmented Reality Racing</p>
-            </div>
-
-            <div class="menu-grid">
-                <button class="menu-card primary" id="quickPlayBtn">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-content">
-                        <h3>QUICK RACE</h3>
-                        <p>Jump straight into action</p>
-                    </div>
-                    <div class="card-arrow">→</div>
+    <div id="mainMenu" class="screen active">
+        <div class="stars"></div>
+        <div class="menu-container">
+            <h1 class="game-title">
+                <span class="title-line">EPSTEIN</span>
+                <span class="title-line">JETS</span>
+            </h1>
+            <p class="subtitle">AR Racing Championship</p>
+            
+            <div class="mode-grid">
+                <button class="mode-card" data-mode="racing">
+                    <div class="card-icon">🏁</div>
+                    <h3>RACING MODE</h3>
+                    <p>Collect checkpoints and reach the finish line</p>
                 </button>
-
-                <button class="menu-card" id="timeAttackBtn">
-                    <div class="card-icon">⏱️</div>
-                    <div class="card-content">
-                        <h3>TIME ATTACK</h3>
-                        <p>Beat your best time</p>
-                    </div>
-                    <div class="card-arrow">→</div>
-                </button>
-
-                <button class="menu-card" id="checkpointRaceBtn">
+                
+                <button class="mode-card" data-mode="obstacles">
                     <div class="card-icon">🎯</div>
-                    <div class="card-content">
-                        <h3>CHECKPOINT RACE</h3>
-                        <p>Collect all checkpoints</p>
-                    </div>
-                    <div class="card-arrow">→</div>
-                </button>
-
-                <button class="menu-card" id="freeFlightBtn">
-                    <div class="card-icon">🌅</div>
-                    <div class="card-content">
-                        <h3>FREE FLIGHT</h3>
-                        <p>Explore and practice</p>
-                    </div>
-                    <div class="card-arrow">→</div>
+                    <h3>OBSTACLE COURSE</h3>
+                    <p>Navigate through challenging obstacles</p>
                 </button>
             </div>
 
             <div class="menu-footer">
-                <button class="icon-btn" id="settingsBtn">⚙️</button>
-                <button class="icon-btn" id="leaderboardBtn">🏆</button>
                 <button class="icon-btn" id="helpBtn">❓</button>
             </div>
         </div>
     </div>
 
-    <!-- Plane Selection -->
-    <div id="planeSelection" class="menu-screen" style="display: none;">
-        <button class="back-btn" id="backFromPlanes">← BACK</button>
-
-        <div class="selection-content">
-            <h2 class="selection-title">SELECT YOUR AIRCRAFT</h2>
-
-            <div class="planes-showcase">
-                <div class="plane-card" data-plane="plane1">
-                    <div class="plane-visual">
-                        <div class="plane-icon-large">🛩️</div>
-                        <div class="plane-hologram"></div>
-                    </div>
-                    <h3 class="plane-name">FALCON</h3>
-                    <div class="plane-stats">
-                        <div class="stat">
-                            <span class="stat-label">SPEED</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">HANDLING</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">BOOST</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="select-plane-btn">SELECT</button>
-                </div>
-
-                <div class="plane-card" data-plane="plane2">
-                    <div class="plane-visual">
-                        <div class="plane-icon-large">✈️</div>
-                        <div class="plane-hologram"></div>
-                    </div>
-                    <h3 class="plane-name">RAPTOR</h3>
-                    <div class="plane-stats">
-                        <div class="stat">
-                            <span class="stat-label">SPEED</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">HANDLING</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">BOOST</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="select-plane-btn">SELECT</button>
-                </div>
-
-                <div class="plane-card" data-plane="plane3">
-                    <div class="plane-visual">
-                        <div class="plane-icon-large">🚁</div>
-                        <div class="plane-hologram"></div>
-                    </div>
-                    <h3 class="plane-name">PHOENIX</h3>
-                    <div class="plane-stats">
-                        <div class="stat">
-                            <span class="stat-label">SPEED</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">HANDLING</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">BOOST</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="select-plane-btn">SELECT</button>
-                </div>
-
-                <div class="plane-card" data-plane="plane4">
-                    <div class="plane-visual">
-                        <div class="plane-icon-large">🛸</div>
-                        <div class="plane-hologram"></div>
-                    </div>
-                    <h3 class="plane-name">SPECTRE</h3>
-                    <div class="plane-stats">
-                        <div class="stat">
-                            <span class="stat-label">SPEED</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">HANDLING</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">BOOST</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="select-plane-btn">SELECT</button>
-                </div>
-
-                <div class="plane-card" data-plane="plane5">
-                    <div class="plane-visual">
-                        <div class="plane-icon-large">🚀</div>
-                        <div class="plane-hologram"></div>
-                    </div>
-                    <h3 class="plane-name">THUNDER</h3>
-                    <div class="plane-stats">
-                        <div class="stat">
-                            <span class="stat-label">SPEED</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">HANDLING</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">BOOST</span>
-                            <div class="stat-bar">
-                                <div class="stat-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="select-plane-btn">SELECT</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- AR Placement Screen -->
-    <div id="arPlacement" class="menu-screen" style="display: none;">
-        <div class="placement-ui">
+    <div id="placementScreen" class="screen">
+        <div class="placement-container">
             <div class="placement-header">
                 <h2>POSITION YOUR AIRCRAFT</h2>
-                <p id="arStatus">Point camera at a flat surface...</p>
+                <p id="arStatus" class="status-text">Initializing AR...</p>
             </div>
 
-            <div class="placement-options">
-                <button class="placement-btn primary" id="placeOnFloorBtn">
-                    <div class="btn-icon">📍</div>
-                    <div class="btn-text">
-                        <span>PLACE ON SURFACE</span>
-                        <small>Use AR floor detection</small>
-                    </div>
-                </button>
+            <div class="placement-visual">
+                <div class="reticle-indicator">
+                    <div class="reticle-ring"></div>
+                    <div class="reticle-dot"></div>
+                </div>
+            </div>
 
-                <button class="placement-btn" id="placeInAirBtn">
-                    <div class="btn-icon">☁️</div>
-                    <div class="btn-text">
-                        <span>PLACE IN AIR</span>
-                        <small>Position in front of you</small>
-                    </div>
+            <div class="placement-buttons">
+                <button class="placement-btn primary" id="placeBtn" disabled>
+                    <span class="btn-icon">📍</span>
+                    <span class="btn-text">PLACE AIRCRAFT</span>
+                </button>
+                
+                <button class="placement-btn secondary" id="backBtn">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">BACK TO MENU</span>
                 </button>
             </div>
 
             <div class="placement-tips">
-                <div class="tip">
-                    <span class="tip-icon">💡</span>
-                    <span>Find an open area for best experience</span>
-                </div>
-                <div class="tip">
-                    <span class="tip-icon">📱</span>
-                    <span>Allow camera permissions if prompted</span>
-                </div>
+                <div class="tip">💡 Point camera at a flat surface</div>
+                <div class="tip">📱 Move device slowly for better detection</div>
+                <div class="tip">☀️ Good lighting improves tracking</div>
             </div>
         </div>
     </div>
 
-    <!-- In-Game HUD -->
-    <div id="gameHUD" style="display: none;">
+    <!-- Game HUD -->
+    <div id="gameHUD" class="hud">
         <!-- Top Bar -->
         <div class="hud-top">
             <div class="hud-left">
-                <div class="hud-item mode-display">
-                    <span class="mode-icon" id="modeIcon">⚡</span>
-                    <span class="mode-text" id="modeText">QUICK RACE</span>
-                </div>
+                <div class="mode-badge" id="modeBadge">RACING MODE</div>
             </div>
-
             <div class="hud-center">
-                <div class="timer-display">
+                <div class="timer">
                     <span class="timer-label">TIME</span>
-                    <span class="timer-value" id="gameTimer">00:00</span>
+                    <span class="timer-value" id="timer">00:00</span>
                 </div>
             </div>
-
             <div class="hud-right">
-                <button class="hud-btn" id="pauseBtn">⏸️</button>
+                <button class="hud-btn" id="pauseBtn">⏸</button>
             </div>
         </div>
 
-        <!-- Main Stats Panel -->
+        <!-- Stats Panel -->
         <div class="stats-panel">
-            <div class="stat-display speed">
-                <div class="stat-icon">🚀</div>
-                <div class="stat-info">
+            <div class="stat-item">
+                <span class="stat-icon">🚀</span>
+                <div class="stat-content">
                     <span class="stat-label">SPEED</span>
                     <span class="stat-value" id="speedValue">0</span>
                     <span class="stat-unit">km/h</span>
                 </div>
-                <div class="stat-bar-container">
-                    <div class="stat-bar-fill" id="speedBar"></div>
-                </div>
             </div>
 
-            <div class="stat-display altitude">
-                <div class="stat-icon">📏</div>
-                <div class="stat-info">
+            <div class="stat-item">
+                <span class="stat-icon">📏</span>
+                <div class="stat-content">
                     <span class="stat-label">ALTITUDE</span>
                     <span class="stat-value" id="altValue">0.0</span>
                     <span class="stat-unit">m</span>
                 </div>
             </div>
 
-            <div class="stat-display checkpoints" id="checkpointDisplay">
-                <div class="stat-icon">🎯</div>
-                <div class="stat-info">
+            <div class="stat-item" id="checkpointStat">
+                <span class="stat-icon">🎯</span>
+                <div class="stat-content">
                     <span class="stat-label">CHECKPOINTS</span>
                     <span class="stat-value">
-                        <span id="checkpointsCurrent">0</span>/<span id="checkpointsTotal">10</span>
+                        <span id="checksCurrent">0</span>/<span id="checksTotal">10</span>
                     </span>
                 </div>
-                <div class="checkpoint-progress">
-                    <div class="progress-fill" id="checkpointProgress"></div>
-                </div>
             </div>
         </div>
 
-        <!-- Boost Indicator -->
-        <div class="boost-indicator" id="boostIndicator">
-            <div class="boost-ring"></div>
-            <div class="boost-text">BOOST</div>
-        </div>
-
-        <!-- Checkpoint Alert -->
-        <div class="checkpoint-alert" id="checkpointAlert">
-            <div class="alert-content">
-                <span class="alert-icon">✓</span>
-                <span class="alert-text">CHECKPOINT</span>
-            </div>
-        </div>
+        <!-- Notifications -->
+        <div id="notification" class="notification"></div>
     </div>
 
     <!-- Controls -->
-    <div id="gameControls" style="display: none;">
+    <div id="controls" class="controls">
         <!-- Left Joystick -->
-        <div class="joystick left" id="leftJoystick">
+        <div class="joystick" id="leftJoystick">
             <div class="joystick-base">
                 <div class="joystick-stick" id="leftStick"></div>
-                <div class="joystick-label">THROTTLE</div>
             </div>
+            <div class="joystick-label">THROTTLE</div>
         </div>
 
         <!-- Right Joystick -->
-        <div class="joystick right" id="rightJoystick">
+        <div class="joystick" id="rightJoystick">
             <div class="joystick-base">
                 <div class="joystick-stick" id="rightStick"></div>
-                <div class="joystick-label">CONTROL</div>
             </div>
+            <div class="joystick-label">STEERING</div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="action-buttons">
+        <div class="action-btns">
             <button class="action-btn boost" id="boostBtn">
-                <div class="btn-glow"></div>
                 <span class="btn-icon">🔥</span>
-                <span class="btn-label">BOOST</span>
+                <span>BOOST</span>
             </button>
         </div>
     </div>
 
     <!-- Pause Menu -->
-    <div id="pauseMenu" class="overlay-menu" style="display: none;">
-        <div class="overlay-content">
+    <div id="pauseMenu" class="overlay-screen">
+        <div class="overlay-container">
             <h2>PAUSED</h2>
             <div class="pause-stats">
-                <div class="pause-stat">
-                    <span class="label">Time</span>
-                    <span class="value" id="pauseTime">00:00</span>
+                <div class="stat-row">
+                    <span>Time</span>
+                    <span id="pauseTime">00:00</span>
                 </div>
-                <div class="pause-stat">
-                    <span class="label">Checkpoints</span>
-                    <span class="value" id="pauseCheckpoints">0/10</span>
-                </div>
-                <div class="pause-stat">
-                    <span class="label">Best Lap</span>
-                    <span class="value" id="pauseBestLap">--:--</span>
+                <div class="stat-row">
+                    <span>Checkpoints</span>
+                    <span id="pauseChecks">0/10</span>
                 </div>
             </div>
-            <div class="menu-buttons">
-                <button class="menu-button primary" id="resumeBtn">RESUME</button>
-                <button class="menu-button" id="restartBtn">RESTART</button>
-                <button class="menu-button" id="quitBtn">QUIT TO MENU</button>
+            <div class="menu-btns">
+                <button class="menu-btn primary" id="resumeBtn">RESUME</button>
+                <button class="menu-btn" id="restartBtn">RESTART</button>
+                <button class="menu-btn" id="quitBtn">QUIT</button>
             </div>
         </div>
     </div>
 
     <!-- Results Screen -->
-    <div id="resultsScreen" class="overlay-menu" style="display: none;">
-        <div class="overlay-content results">
-            <div class="results-header">
-                <div class="results-rank" id="resultsRank">1ST</div>
-                <h2 class="results-title" id="resultsTitle">VICTORY!</h2>
-            </div>
-
+    <div id="resultsScreen" class="overlay-screen">
+        <div class="overlay-container results">
+            <h2 id="resultsTitle">VICTORY!</h2>
             <div class="results-stats">
                 <div class="result-item">
                     <span class="result-icon">⏱️</span>
-                    <div class="result-info">
-                        <span class="result-label">Final Time</span>
-                        <span class="result-value" id="finalTime">00:00.00</span>
+                    <div>
+                        <span class="result-label">Time</span>
+                        <span class="result-value" id="finalTime">00:00</span>
                     </div>
                 </div>
                 <div class="result-item">
                     <span class="result-icon">🎯</span>
-                    <div class="result-info">
+                    <div>
                         <span class="result-label">Checkpoints</span>
-                        <span class="result-value" id="finalCheckpoints">10/10</span>
+                        <span class="result-value" id="finalChecks">0/10</span>
                     </div>
                 </div>
                 <div class="result-item">
                     <span class="result-icon">🚀</span>
-                    <div class="result-info">
+                    <div>
                         <span class="result-label">Top Speed</span>
                         <span class="result-value" id="finalSpeed">0 km/h</span>
                     </div>
                 </div>
-                <div class="result-item">
-                    <span class="result-icon">⭐</span>
-                    <div class="result-info">
-                        <span class="result-label">Score</span>
-                        <span class="result-value" id="finalScore">0</span>
-                    </div>
-                </div>
             </div>
-
-            <div class="results-actions">
-                <button class="menu-button primary" id="playAgainBtn">PLAY AGAIN</button>
-                <button class="menu-button" id="menuBtn">MAIN MENU</button>
+            <div class="menu-btns">
+                <button class="menu-btn primary" id="playAgainBtn">PLAY AGAIN</button>
+                <button class="menu-btn" id="mainMenuBtn">MAIN MENU</button>
             </div>
         </div>
     </div>
 
-    <!-- Settings Panel -->
-    <div id="settingsPanel" class="overlay-menu" style="display: none;">
-        <button class="close-btn" id="closeSettings">✕</button>
-        <div class="overlay-content settings">
-            <h2>SETTINGS</h2>
+    <!-- Help Overlay -->
+    <div id="helpOverlay" class="overlay-screen">
+        <div class="overlay-container help">
+            <button class="close-btn" id="closeHelp">✕</button>
+            <h2>HOW TO PLAY</h2>
+            
+            <div class="help-section">
+                <h3>🎮 Controls</h3>
+                <p><strong>Desktop:</strong> WASD or Arrow Keys + Space (boost)</p>
+                <p><strong>Mobile:</strong> Use on-screen joysticks + boost button</p>
+            </div>
 
-            <div class="settings-grid">
-                <div class="setting-group">
-                    <h3>Graphics</h3>
-                    <div class="setting-item">
-                        <span>Quality</span>
-                        <select id="qualitySelect">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <span>Shadows</span>
-                        <label class="toggle">
-                            <input type="checkbox" id="shadowsToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <span>Particles</span>
-                        <label class="toggle">
-                            <input type="checkbox" id="particlesToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
+            <div class="help-section">
+                <h3>🏁 Racing Mode</h3>
+                <p>Collect all checkpoints in order, then reach the finish line before time runs out!</p>
+            </div>
 
-                <div class="setting-group">
-                    <h3>Controls</h3>
-                    <div class="setting-item">
-                        <span>Sensitivity</span>
-                        <input type="range" id="sensitivitySlider" min="0.5" max="2" step="0.1" value="1">
-                    </div>
-                    <div class="setting-item">
-                        <span>Invert Y-Axis</span>
-                        <label class="toggle">
-                            <input type="checkbox" id="invertToggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <span>Vibration</span>
-                        <label class="toggle">
-                            <input type="checkbox" id="vibrationToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
+            <div class="help-section">
+                <h3>🎯 Obstacle Course</h3>
+                <p>Navigate through obstacles, collect power-ups, and reach the end zone!</p>
+            </div>
+
+            <div class="help-section">
+                <h3>💡 Tips</h3>
+                <p>• Fly through checkpoint rings, not around them</p>
+                <p>• Use boost wisely - it depletes quickly</p>
+                <p>• Don't fly too low or crash into ground</p>
+                <p>• Smooth control inputs work better than jerky movements</p>
             </div>
         </div>
-    </div>
-
-    <!-- Info Display -->
-    <div id="infoDisplay" class="info-toast">
-        <span id="infoText">Ready to race!</span>
     </div>
 
     <script type="importmap">
@@ -535,7 +251,6 @@
         }
     }
     </script>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
-
 </html>
