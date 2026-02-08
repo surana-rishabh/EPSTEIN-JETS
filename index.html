@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AR Flight Sim</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- ===== INFO PANEL ===== -->
+    <div id="info">🛩️ Starting AR...</div>
+
+    <!-- ===== LEVEL INDICATOR ===== -->
+    <div id="levelIndicator" style="display:none;">Level 1</div>
+
+    <!-- ===== HUD ===== -->
+    <div id="hud">
+        ⏱️ TIME: <span id="time">60</span>s<br>
+        <span class="checkpoint-text">✓ CHECKS: <span id="checks">0</span></span><br>
+        🚀 SPEED: <span id="speed">0</span><br>
+        📏 ALT: <span id="alt">0.0</span>m
+    </div>
+
+    <!-- ===== STALL WARNING ===== -->
+    <div id="stallWarning">⚠️ STALL</div>
+
+    <!-- ===== SPAWN / LEVEL SELECT ===== -->
+    <div id="spawnUI">
+        <h1>✈️ AR FLIGHT SIM</h1>
+        <p class="subtitle">Realistic AR Flight Experience</p>
+        <div id="levelSelect"></div>
+        <p id="levelDesc" style="color: #ffd700; font-size: 14px;"></p>
+        <br>
+        <p style="color: #0f0;">👇 Point camera at floor</p>
+        <button class="spawnBtn" id="placeOnFloorBtn">PLACE ON FLOOR</button>
+        <br>
+        <p style="color: #ff6600;">OR</p>
+        <button class="spawnBtn" id="placeInAirBtn">PLACE IN AIR</button>
+    </div>
+
+    <!-- ===== JOYSTICKS ===== -->
+    <div id="leftJoy" class="joystick">
+        <div class="stick" id="leftStick"></div>
+    </div>
+    <div id="rightJoy" class="joystick">
+        <div class="stick" id="rightStick"></div>
+    </div>
+
+    <!-- ===== ACTION BUTTONS ===== -->
+    <div id="buttons">
+        <button class="btn" id="boostBtn">BOOST</button>
+        <button class="btn" id="resetBtn">RESET</button>
+    </div>
+
+    <!-- ===== GAME OVER / LEVEL COMPLETE ===== -->
+    <div id="gameOver">
+        <h1 id="gameTitle">GAME OVER</h1>
+        <p id="gameMsg"></p>
+        <p>📊 Level: <span id="finalLevel">-</span></p>
+        <p>✓ Checkpoints: <span id="finalChecks">0</span></p>
+        <p>⏱️ Time Left: <span id="finalTime">0</span>s</p>
+        <button class="endBtn" id="nextLevelBtn" style="display:none;">NEXT LEVEL ➡️</button>
+        <button class="endBtn" id="restartBtn">PLAY AGAIN</button>
+    </div>
+
+    <!-- ===== CRASH OVERLAY ===== -->
+    <div id="crashOverlay"></div>
+
+    <!-- ===== OCCLUSION INFO ===== -->
+    <div id="occlusionInfo"></div>
+
+    <!-- ===== THREE.JS IMPORT MAP ===== -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- ===== APP ENTRY ===== -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
